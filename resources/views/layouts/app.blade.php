@@ -8,8 +8,8 @@
     <title>Laravel</title>
 
     <!--     Fonts and icons     -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-        <link rel="stylesheet" href="font-awesome-4.6.3/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="{{ URL::asset('fonts/material-icons.css') }}" />
+        <link rel="stylesheet" href="{{ URL::asset('font-awesome-4.6.3/css/font-awesome.min.css') }}" />
 
     <!-- Material Kit -->
         <link href="{{ URL::asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
@@ -46,6 +46,19 @@
                     <div class="collapse navbar-collapse" id="example-navbar-primary">
                         <ul class="nav navbar-nav navbar-left">
                             <li><a href="{{ url('home') }}">Home</a></li>
+                            @if (Auth::check() && Auth::user()->role === 1)
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="material-icons">settings</i>
+                                        Manage
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li class="dropdown-header">Manage Settings</li>
+                                        <li><a href="{{ url('users') }}">Users</a></li>
+                                    </ul>
+                                </li>
+                            @endif
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
