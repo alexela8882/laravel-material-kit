@@ -23,6 +23,10 @@
       <script type="text/javascript" src="{{ URL::asset('bower_components/toastr/toastr.min.js') }}"></script>
       <!-- End of Toastr -->
 
+    <!-- Bootstrap Table -->
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('bower_components/bootstrap-table/dist/bootstrap-table.min.css') }}">
+        <!-- End of Bootstrap Table -->
+
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
 </head>
@@ -45,9 +49,9 @@
 
                     <div class="collapse navbar-collapse" id="example-navbar-primary">
                         <ul class="nav navbar-nav navbar-left">
-                            <li><a href="{{ url('home') }}">Home</a></li>
+                            <li class="{{ Request::is('home') ? 'active' : '' }}"><a href="{{ url('home') }}">Home</a></li>
                             @if (Auth::check() && Auth::user()->role === 1)
-                                <li class="dropdown">
+                                <li class="dropdown {{ Request::is('users') ? 'active' : '' }}">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="material-icons">settings</i>
                                         Manage
@@ -55,13 +59,13 @@
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li class="dropdown-header">Manage Settings</li>
-                                        <li><a href="{{ url('users') }}">Users</a></li>
+                                        <li class="{{ Request::is('users') ? 'active' : '' }}"><a href="{{ url('users') }}">Users</a></li>
                                     </ul>
                                 </li>
                             @endif
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
+                            <li class="dropdown {{ Request::is('users/changePassword') ? 'active' : '' }}">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="material-icons">account_circle</i>
                                     Profile
@@ -70,7 +74,7 @@
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li class="dropdown-header">Account Settings</li>
                                     <li><a href="#">View Profile</a></li>
-                                    <li><a href="#">Change Password</a></li>
+                                    <li class="{{ Request::is('users/changePassword') ? 'active' : '' }}"><a href="{{ url('users/changePassword') }}">Change Password</a></li>
                                     <li class="divider"></li>
                                     <li><a href="{{ url('logout') }}">Logout</a></li>
                                 </ul>
@@ -97,6 +101,12 @@
 
     <!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
     <script src="{{ URL::asset('assets/js/material-kit.js') }}" type="text/javascript"></script>
+
+    <!-- Bootstrap Table -->
+        <script type="text/javascript" src="{{ URL::asset('bower_components/bootstrap-table/dist/bootstrap-table.js') }}"></script>
+        <!-- End of Bootstrap Table -->
+
+    @stack('scripts')
 
     <script type="text/javascript">
 

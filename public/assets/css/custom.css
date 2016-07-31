@@ -18,3 +18,7 @@ html {
        url('../../fonts/Roboto/roboto-v15-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
        url('../../fonts/Roboto/roboto-v15-latin-regular.svg#Roboto') format('svg'); /* Legacy iOS */
 }
+
+.table-actions {
+  margin-left: 10px;
+}

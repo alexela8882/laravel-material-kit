@@ -22,4 +22,6 @@ Route::get('/home', 'HomeController@index');
 // users
 Route::group(['prefix' => 'users'], function () {
 	Route::get('/', 'UserController@index');
+	Route::get('/changePassword', 'UserController@changePassword');
+	Route::post('/updatePassword', 'UserController@updatePassword');
 });
