@@ -22,3 +22,18 @@ html {
 .table-actions {
   margin-left: 10px;
 }
+
+/*
+ * styles for pending tables
+ */
+.table-noborder > thead > tr > th,
+.table-noborder > tbody > tr > th,
+.table-noborder > tfoot > tr > th,
+.table-noborder > thead > tr > td,
+.table-noborder > tbody > tr > td,
+.table-noborder > tfoot > tr > td {
+  padding: 0px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 0px solid #ddd;
+}

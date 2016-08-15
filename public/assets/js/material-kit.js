@@ -61,7 +61,7 @@ $(document).ready(function(){
     $('[data-toggle="popover"]').popover();
 
     // Active Carousel
-	$('.carousel').carousel({
+    $('.carousel').carousel({
       interval: 400000
     });
 
@@ -73,7 +73,7 @@ materialKit = {
     },
 
     checkScrollForTransparentNavbar: debounce(function() {
-            if($(document).scrollTop() > 260 ) {
+            if($(document).scrollTop() > 60 ) {
                 if(transparent) {
                     transparent = false;
                     $('.navbar-color-on-scroll').removeClass('navbar-transparent');
@@ -84,7 +84,7 @@ materialKit = {
                     $('.navbar-color-on-scroll').addClass('navbar-transparent');
                 }
             }
-    }, 17),
+    }, 0),
 
     initSliders: function(){
         // Sliders for demo purpose
@@ -132,14 +132,14 @@ materialKitDemo = {
 // leading edge, instead of the trailing.
 
 function debounce(func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		clearTimeout(timeout);
-		timeout = setTimeout(function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		}, wait);
-		if (immediate && !timeout) func.apply(context, args);
-	};
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        }, wait);
+        if (immediate && !timeout) func.apply(context, args);
+    };
 };

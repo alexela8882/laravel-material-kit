@@ -10,56 +10,125 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Toastr;
 use Validator;
+use View;
 
 class UserController extends Controller
 {
-	/*
-	 * go to this middleware first
-	 */
-    public function __construct () {
-    	$this->middleware('admin');
-    }
 
     /*
+     * go to this middleware first
+     */
+    public function __construct() {
+        $this->middleware('admin');
+    }
+
+	/*
      * then do this functions
      */
     public function index () {
-    	$users = User::all();
+        $users = User::all();
     	return view('user.index', compact('users'));
     }
 
-    public function changePassword () {
-        return view('user.changePassword');
+    public function create () {
+        return View::make('user.create');
     }
 
-    public function updatePassword (Request $request) {
+    public function store (Request $request) {
         $validator = Validator::make($request->all(), [
-            'oldpassword' => 'required|max:255',
-            'newpassword' => 'required|min:6|max:255|confirmed',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|max:255|confirmed',
             ]);
-        $validator->after(function($validator) use($request) {
-            if (!\Hash::check($request->get('oldpassword'), \Auth::user()->password)) {
-                $validator->errors()->add('oldpassword', 'Old password dont match in our database.');
-            }
-        });
+
         if ($validator->fails()) {
             // Toastr
-            $title = "Oops!";
+            $title = "Registration Failed!";
             $message = "Please make sure to fill all required fields.";
             $options = [
                 'progressBar' => false,
-                'positionClass' => 'toast-top-right',
-                'timeOut' => 6000,
+                'positionClass' => 'toast-bottom-right',
+                'timeOut' => 5000,
+            ];
+            Toastr::error($message, $title, $options);
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $user = New User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->role = $request->role;
+        $user->save();
+
+        // Toastr
+        $title = "Registration Successful!";
+        $message = "User with " . $request->email . " has been added to the list of users.";
+        $options = [
+            'progressBar' => false,
+            'positionClass' => 'toast-bottom-right',
+            'timeOut' => 5000,
+        ];
+        Toastr::success($message, $title, $options);
+        return redirect()->guest('users');
+    }
+
+    public function edit ($id, Request $request) {
+        $user = User::find($id);
+        return View::make('user.edit', compact('user'));
+    }
+
+    public function update ($id, Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|max:255',
+            ]);
+
+        if ($validator->fails()) {
+            // Toastr
+            $title = "Update Failed!";
+            $message = "Please make sure to fill all required fields.";
+            $options = [
+                'progressBar' => false,
+                'positionClass' => 'toast-bottom-right',
+                'timeOut' => 5000,
             ];
             Toastr::error($message, $title, $options);
             return redirect()->back()
                 ->withErrors($validator);
-        } else {
-            $user = User::find(Auth::user()->id);
-            $user->password = bcrypt($request->newpassword);
-            $user->save();
-
-            return redirect()->guest('logout');
         }
+
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = $request->role;
+        $user->save();
+
+        // Toastr
+        $title = "Update Successful!";
+        $message = "User with email " . $request->email . ' successfully udpated.';
+        $options = [
+            'progressBar' => false,
+            'positionClass' => 'toast-bottom-right',
+            'timeOut' => 5000,
+        ];
+        Toastr::success($message, $title, $options);
+        return redirect()->guest('users');
+    }
+
+    public function delete ($id) {
+        $user = User::find($id);
+        $user->delete();
+
+        // Toastr
+        $title = "Delete Successful!";
+        $message = "User successfully deleted.";
+        $options = [
+            'progressBar' => false,
+            'positionClass' => 'toast-bottom-right',
+            'timeOut' => 5000,
+        ];
+        Toastr::success($message, $title, $options);
+        return redirect()->back();
     }
 }

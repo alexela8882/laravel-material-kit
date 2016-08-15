@@ -163,6 +163,9 @@ return [
          */
         Kamaln7\Toastr\ToastrServiceProvider::class,
 
+        //LavaCharts
+        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+
     ],
 
     /*

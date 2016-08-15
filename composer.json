@@ -7,7 +7,11 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "oriceon/toastr-5-laravel": "dev-master"
+        "oriceon/toastr-5-laravel": "dev-master",
+        "laravelcollective/html": "5.2.*",
+        "maatwebsite/excel": "~2.1.0",
+        "laravelcollective/bus": "^5.2",
+        "khill/lavacharts": "~3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
